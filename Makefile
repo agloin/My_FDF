@@ -3,7 +3,8 @@ NAME	= fdf
 # src / obj files
 SRC		= 	main.c \
 			read_file.c \
-			draw.c
+			draw.c \
+			helper_functions.c
 
 OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 

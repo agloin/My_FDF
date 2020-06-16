@@ -13,20 +13,6 @@
 #include "fdf.h"
 #include <math.h>
 
-float	ft_max1(float a, float b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-float	ft_mod(float a)
-{
-	if (a < 0)
-		return (-a);
-	return (a);
-}
-
 void	isometric(float *x, float *y, int *z)
 {
 	*x = (*x - *y) * cos(0.8);
