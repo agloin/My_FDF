@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjeraldi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Student <Student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 22:02:54 by rjeraldi          #+#    #+#             */
-/*   Updated: 2019/10/02 16:40:35 by agloin           ###   ########.fr       */
+/*   Updated: 2020/06/15 15:41:30 by Student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 int					ft_check(int c);
 size_t				ft_count_words(char const *s, char c);
-
+int					ft_isspace(int c);
+int					ft_isupper(int c);
+int					ft_toupper(int c);
 
 
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agloin <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: Student <Student@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/24 14:20:16 by agloin            #+#    #+#              #
-#    Updated: 2019/10/02 17:15:58 by agloin           ###   ########.fr        #
+#    Updated: 2020/06/15 15:45:14 by Student          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,9 @@ SRC = ft_atoi.c\
 	  ft_strtrim.c\
 	  ft_tolower.c\
 	  ft_toupper.c\
-	  get_next_line.c
+	  get_next_line.c\
+	  ft_isspace.c\
+	  ft_isupper.c
 
 OBJS = $(SRC:.c=.o)
 

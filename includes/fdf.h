@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agloin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: Student <Student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 09:03:18 by agloin            #+#    #+#             */
-/*   Updated: 2020/03/15 09:03:20 by agloin           ###   ########.fr       */
+/*   Updated: 2020/06/15 18:57:25 by Student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,39 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-typedef enum
+typedef		enum
 {
 	true,
 	false
 }			t_bool;
 
-typedef struct
+typedef		struct
 {
-	int		width; // ширина карты
-	int		height; // высота карты
-	int		**z_matrix; // z-координата карты
+	int		width;
+	int		height;
+	int		**z_matrix;
 	int		zoom;
 	int		color;
 	int		shift_x;
 	int		shift_y;
+	int		color_space;
 	void	*mlx_ptr;
 	void	*win_ptr;
-	t_bool  perspective;
-}			fdf;
+	t_bool	perspective;
+	float	x;
+	float	y;
+	float	x1;
+	float	y1;
+	float	x_step;
+	float	y_step;
+	int		max;
+	int		z;
+	int		z1;
+}			t_fdf;
 
-void	read_file(char *file_name, fdf *data);
-void	bresenham(float x, float y, float x1, float y1, fdf *data);
-void	draw(fdf *data);
+void		read_file(char *file_name, t_fdf *data);
+void		bresenham(float x, float y, float x1, float y1, t_fdf *data);
+void		draw(t_fdf *data);
+void		freee(t_fdf *data);
 
 #endif

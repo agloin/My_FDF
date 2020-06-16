@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agloin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: Student <Student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 13:07:36 by agloin            #+#    #+#             */
-/*   Updated: 2020/03/15 13:07:38 by agloin           ###   ########.fr       */
+/*   Updated: 2020/06/15 19:05:36 by Student          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 float	ft_max1(float a, float b)
 {
 	if (a > b)
-		return(a);
+		return (a);
 	return (b);
 }
 
 float	ft_mod(float a)
 {
 	if (a < 0)
-		return(-a);
-	return(a);
+		return (-a);
+	return (a);
 }
 
 void	isometric(float *x, float *y, int *z)
@@ -33,58 +33,68 @@ void	isometric(float *x, float *y, int *z)
 	*y = (*x + *y) * sin(0.8) - *z;
 }
 
-void	bresenham(float x, float y, float x1, float y1, fdf *data)// ([1:1] [3:12] - координаты двух точек [y, x]
+void	bresenham3(t_fdf *data)
 {
-	float x_step;
-	float y_step;
-	int max;
-	int z;
-	int z1;
-
-	// data->perspective = true;
-	z = data->z_matrix[(int)y][(int)x];
-	z1 = data->z_matrix[(int)y1][(int)x1];
-
-
-	//-----------zoom------------
-	x = x * data->zoom;
-	y = y * data->zoom;
-	x1 = x1 * data->zoom;
-	y1 = y1 * data->zoom;
-	//---------color-------------
-	data->color = (z || z1) ? 0xe80c0c : 0xffffff;
-	x_step = x1 - x;
-	y_step = y1 - y;
-	//-------3D------------------
+	data->z = data->z_matrix[(int)data->y][(int)data->x];
+	data->z1 = data->z_matrix[(int)data->y1][(int)data->x1];
+	data->x = data->x * data->zoom;
+	data->y = data->y * data->zoom;
+	data->x1 = data->x1 * data->zoom;
+	data->y1 = data->y1 * data->zoom;
+	data->color = (data->z || data->z1) ? 0xe80c0c : 0xffffff;
+	data->x_step = data->x1 - data->x;
+	data->y_step = data->y1 - data->y;
 	if (data->perspective == false)
 	{
-		isometric(&x, &y, &z);
-		isometric(&x1, &y1, &z1);
+		isometric(&data->x, &data->y, &data->z);
+		isometric(&data->x1, &data->y1, &data->z1);
 	}
-	//-------------shift---------
-	x = x + data->shift_x;
-	y = y + data->shift_y;
-	x1 = x1 + data->shift_x;
-	y1 = y1 + data->shift_y;
-
-	x_step = x1 - x;
-	y_step = y1 - y;
-	max = ft_max1(ft_mod(x_step), ft_mod(y_step));
-	x_step = x_step / max;
-	y_step = y_step / max;
-	while ((int)(x - x1) || (int)(y - y1))
-	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->color);
-		x = x + x_step;
-		y = y + y_step;
-	}
-
 }
 
-void	draw(fdf *data)
+void	bresenham2(t_fdf *data)
 {
-	int x;
-	int y;
+	bresenham3(data);
+	data->x = data->x + data->shift_x;
+	data->y = data->y + data->shift_y;
+	data->x1 = data->x1 + data->shift_x;
+	data->y1 = data->y1 + data->shift_y;
+	data->x_step = data->x1 - data->x;
+	data->y_step = data->y1 - data->y;
+	data->max = ft_max1(ft_mod(data->x_step), ft_mod(data->y_step));
+	data->x_step = data->x_step / data->max;
+	data->y_step = data->y_step / data->max;
+	while ((int)(data->x - data->x1) || (int)(data->y - data->y1))
+	{
+		mlx_pixel_put(data->mlx_ptr, data->win_ptr, data->x, data->y, data->color);
+		data->x = data->x + data->x_step;
+		data->y = data->y + data->y_step;
+	}
+}
+
+void	draw2(t_fdf *data, float x, float y)
+{
+	if (x < data->width - 1)
+	{
+		data->x = x;
+			data->y = y;
+			data->x1 = x + 1;
+				data->y1 = y;
+				bresenham2(data);
+			}
+			if (y < data->height - 1)
+			{
+				data->x = x;
+				data->y = y;
+				data->x1 = data->x;
+				data->y1 = data->y + 1;
+				bresenham2(data);
+			}
+}
+
+void	draw(t_fdf *data)
+{
+	float x;
+	float y;
 
 	y = 0;
 	while (y < data->height)
@@ -92,10 +102,7 @@ void	draw(fdf *data)
 		x = 0;
 		while (x < data->width)
 		{
-			if (x < data->width - 1)
-				bresenham(x, y, x + 1, y, data);
-			if (y < data->height - 1)
-				bresenham(x, y, x, y + 1, data);
+			draw2(data, x, y);
 			x++;
 		}
 		y++;
